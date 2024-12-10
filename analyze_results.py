@@ -35,7 +35,7 @@ def analyze_sweep_results(directory):
     return results
 
 def main():
-    sweep_dir = "/Users/aryanjain/Documents/GitHub/bijection-learning/results/fixed_size_sweep"
+    sweep_dir = "insert your path here"
     results = analyze_sweep_results(sweep_dir)
     
     # Print results
