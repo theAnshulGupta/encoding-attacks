@@ -1,0 +1,5 @@
+from n_cypers import decoder
+cypher = {'I': 'SV2', 'u': 'HROVs', 'N': 'xIFHi', '9': 'kKPN', 'O': '8qLA', 'f': 'sybE', '3': '8dqn', 'x': 'O8qJq', '2': 'MMV', 'L': 'UeLvkUV', 'h': 'aH9fKv', 'e': 'e', 'A': 'l9pE87Om', 'b': 'laQLnJP', 'B': 'ax2bdrI', 'Z': 'xBxY', 'g': 'g', 'V': 'StJObD', 'E': 'FaFMPdp', 'M': 'NqjQ', 'U': 'yiQjZjhn', 'o': 'o', '7': '7', 'C': 'b5F6', 't': 'kbWB', '0': 'Ytvi9A', 'Q': 'PFUGTk', '5': 'rwVh', 'k': 'Sv4x8lA', 'q': 'yr0DVR8X', 'j': 'hVa6Vmhf', 'W': 'DfH', 'P': '3QIOp6Au', 'T': 'wf3If', 'a': 'jpDKBmSO', 'r': 'r', '4': 'JCiSO', 'n': 'cHn6', 'p': 'DNSh', 'y': 'QasIB', 'i': 'v4QxR9z', 'S': 'dFMIGI', 'z': '6pxIx', 's': '5lU', '6': 'tv6', 'l': '58cOU', 'K': 'dSQ', '8': 'K6pbY', 'w': 'tvmASb2i', 'm': 'm', 'F': 'xXE4Ec', 'H': 'kVd', 'Y': '2QdMwuE2', 'd': 'wM8', '1': '1', 'c': 'ZyTDH', 'G': 'aJVM5ly', 'D': 'iLuD', 'X': 'TW8F', 'R': '4wMW', 'J': 'ZUiU', 'v': 'PijYz'}
+text = "SV2 jpDKBmSO m 5lUo r r QasIB, SV2 ZyTDH jpDKBmSO cHn6 cHn6 o kbWB DNSh r o StJObD v4QxR9z wM8 e jpDKBmSO cHn6 QasIB v4QxR9z cHn6 sybE o r m jpDKBmSO kbWB v4QxR9z o cHn6 jpDKBmSO laQLnJP o HROVs kbWB v4QxR9z 58cOU 58cOU e g jpDKBmSO 58cOU"
+d = decoder(text, cypher)
+print(d)
