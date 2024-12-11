@@ -13,7 +13,6 @@ class TransformEngine:
         self.context_patterns = {}
         self.cypher = None
         
-    @staticmethod
     def create(transform_type: str, model_name: str) -> 'TransformEngine':
         if transform_type == "word":
             return WordTransformEngine(model_name)

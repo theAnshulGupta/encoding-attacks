@@ -4,7 +4,6 @@ from concurrent.futures import ProcessPoolExecutor
 from dataclasses import dataclass
 from .processor import ExecutionConfig, Executor
 
-@dataclass
 class OptimizationConfig:
     num_teaching_shots: List[int]
     num_practice_shots: List[int]

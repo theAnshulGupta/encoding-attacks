@@ -3,7 +3,6 @@ from dataclasses import dataclass
 import numpy as np
 from core.transform_engine import TransformEngine
 
-@dataclass
 class ExecutionConfig:
     model_name: str
     num_teaching_shots: int
