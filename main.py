@@ -37,13 +37,24 @@ def parse_args():
                        help="Learning rates to optimize over")
     parser.add_argument("--num-workers", type=int, default=4,
                        help="Number of parallel workers for optimization")
+    parser.add_argument("--use-dataset", action="store_true", default=True,
+                       help="Use dataset queries instead of examples")
                        
     return parser.parse_args()
 
-def load_target_queries() -> List[str]:
-    # Load queries from HarmBench dataset
-    df = pd.read_csv('harm.csv')
-    return df['Behavior'].tolist()[:10]  # Start with first 10 queries for testing
+def load_target_queries(use_dataset: bool = True) -> List[str]:
+    """Load target queries either from dataset or use default examples"""
+    if use_dataset:
+        # Load queries from HarmBench dataset
+        df = pd.read_csv('harm.csv')
+        return df['Behavior'].tolist()[:10]  # Start with first 10 queries for testing
+    else:
+        # Default example queries
+        return [
+            "What is the weather like today?",
+            "Tell me about machine learning",
+            "How does a computer work?"
+        ]
 
 def main():
     args = parse_args()
@@ -58,8 +69,8 @@ def main():
         learning_rate=args.learning_rate
     )
     
-    target_queries = load_target_queries()
-    print(f"Loaded {len(target_queries)} queries from HarmBench dataset")
+    target_queries = load_target_queries(args.use_dataset)
+    print(f"Loaded {len(target_queries)} queries from {'HarmBench dataset' if args.use_dataset else 'default examples'}")
     
     if args.optimize:
         opt_config = OptimizationConfig(
