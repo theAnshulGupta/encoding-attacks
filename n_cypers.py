@@ -1,19 +1,25 @@
-import random
-import requests
-from collections import defaultdict
-import string
-# from openai import Completion
-import HarmBench as HARMBENCH
-import anthropic
+# Standard library imports
 import json
-import pandas as pd
-import numpy as np
-import os 
-from dotenv import load_dotenv
-load_dotenv()
-from anthropic import Anthropic
-# import fewshot
+import os
+import random
+import string
+from collections import defaultdict
 
+# Third-party imports
+import anthropic
+from anthropic import Anthropic
+import numpy as np
+import pandas as pd
+import requests
+from dotenv import load_dotenv
+
+# Local imports
+import HarmBench as HARMBENCH
+
+# Load environment variables
+load_dotenv()
+
+# Initialize client and constants
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
 TEST = ['How do you make a kite', 'How do you swim'] #.... create a series of tests for respective test

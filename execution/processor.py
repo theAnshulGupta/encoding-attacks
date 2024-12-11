@@ -1,8 +1,18 @@
-from typing import Dict, List, Optional
+# Standard library imports
+import json
+import logging
+from typing import Dict, List, Optional, Union
 from dataclasses import dataclass
+
+# Third-party imports
 import numpy as np
+from anthropic import Anthropic
+from dotenv import load_dotenv
+
+# Local imports
 from core.transform_engine import TransformEngine
 
+@dataclass
 class ExecutionConfig:
     model_name: str
     num_teaching_shots: int
@@ -15,6 +25,8 @@ class Executor:
     def __init__(self, config: ExecutionConfig):
         self.config = config
         self.transform_engine = None
+        self.client = Anthropic()
+        self.logger = logging.getLogger(__name__)
         
     def initialize_transformation(self, transformation_type: str):
         self.transform_engine = TransformEngine.create(
@@ -48,3 +60,13 @@ class Executor:
             result = self.transform_engine.generate_teaching_example()
             results.append(result)
         return results
+
+    def execute_query(self, query: str, context: Optional[str] = None) -> Dict:
+        """Execute a query with optional context"""
+        # Implementation details here
+        pass
+        
+    def batch_execute(self, queries: List[str]) -> List[Dict]:
+        """Execute a batch of queries"""
+        # Implementation details here
+        pass

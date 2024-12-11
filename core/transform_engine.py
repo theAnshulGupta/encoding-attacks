@@ -1,4 +1,9 @@
-from typing import Dict, List
+# Standard library imports
+import random
+import string
+from typing import Dict, List, Optional
+
+# Third-party imports
 import numpy as np
 from openai import OpenAI
 import os
@@ -13,6 +18,7 @@ class TransformEngine:
         self.context_patterns = {}
         self.cypher = None
         
+    @staticmethod
     def create(transform_type: str, model_name: str) -> 'TransformEngine':
         if transform_type == "word":
             return WordTransformEngine(model_name)

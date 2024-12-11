@@ -1,8 +1,17 @@
+# Standard library imports
+import json
+import logging
 from typing import Dict, List, Optional, Tuple
 import itertools
 from concurrent.futures import ProcessPoolExecutor
-from dataclasses import dataclass
+
+# Third-party imports
+import numpy as np
+from tqdm import tqdm
+
+# Local imports
 from .processor import ExecutionConfig, Executor
+from dataclasses import dataclass
 
 class OptimizationConfig:
     num_teaching_shots: List[int]
