@@ -10,7 +10,7 @@ import os
 os.makedirs('plots', exist_ok=True)
 
 # Load results
-results_file = "results/small_test_sonnet_new.json"
+results_file = "results/output.json"
 with open(results_file, "r") as f:
     results_data = json.load(f)
 
@@ -36,10 +36,10 @@ for query, trials in results_data["data"].items():
     query_length = len(query.split())
     
     for trial_idx, trial in enumerate(trials):
-        if 'human_judge' not in trial:
+        if 'person' not in trial:
             continue
             
-        success = 1 if trial['human_judge'] == 'unsafe' else 0
+        success = 1 if trial['person'] == 'unsafe' else 0
         response_length = len(trial.get('response', '').split())
         
         trial_data.append({

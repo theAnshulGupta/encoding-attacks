@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Run language transformation executions")
+    parser = argparse.ArgumentParser(description="Languages")
     
     parser.add_argument("--model", type=str, required=True)
     parser.add_argument("--teaching-shots", type=int, default=5)

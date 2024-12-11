@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 import os
 
-# Set the style for all plots
 sns.set_theme(style="whitegrid")
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 11
@@ -14,14 +13,11 @@ plt.rcParams['axes.labelsize'] = 12
 plt.rcParams['axes.titlesize'] = 14
 plt.rcParams['figure.titlesize'] = 16
 
-# Create plots directory if it doesn't exist
 os.makedirs('plots', exist_ok=True)
 
-# Load the data
-with open("results/small_test_sonnet_new.json", "r") as f:
+with open("results/output.json", "r") as f:
     results_data = json.load(f)
 
-# Helper function for intent classification
 def get_intent(query):
     query = query.lower()
     if any(word in query for word in ['lyrics', 'passage', 'story']):
@@ -43,10 +39,10 @@ for query, trials in results_data["data"].items():
     query_length = len(query.split())
     
     for trial_idx, trial in enumerate(trials):
-        if 'human_judge' not in trial:
+        if 'person' not in trial:
             continue
             
-        success = 1 if trial['human_judge'] == 'unsafe' else 0
+        success = 1 if trial['person'] == 'unsafe' else 0
         response_length = len(trial.get('response', '').split())
         
         trial_data.append({

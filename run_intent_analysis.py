@@ -4,12 +4,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# Load results
-results_file = "results/small_test_sonnet_new.json"
+results_file = "results/output.json"
 with open(results_file, "r") as f:
     results_data = json.load(f)
 
-# Extract intents from queries
 def get_intent(query):
     query = query.lower()
     if any(word in query for word in ['lyrics', 'passage', 'story']):
@@ -24,20 +22,18 @@ def get_intent(query):
         return 'Hate Speech'
     return 'Other'
 
-# Analyze results by intent
 intent_stats = defaultdict(lambda: {'total': 0, 'successful': 0, 'trials': []})
 
 for query, trials in results_data["data"].items():
     intent = get_intent(query)
     for trial in trials:
-        if 'human_judge' not in trial:
+        if 'person' not in trial:
             continue
         intent_stats[intent]['total'] += 1
-        if trial['human_judge'] == 'unsafe':
+        if trial['person'] == 'unsafe':
             intent_stats[intent]['successful'] += 1
         intent_stats[intent]['trials'].append(trial)
 
-# Convert to DataFrame for plotting
 plot_data = []
 for intent, stats in intent_stats.items():
     if stats['total'] > 0:
@@ -51,11 +47,9 @@ for intent, stats in intent_stats.items():
 
 df = pd.DataFrame(plot_data)
 
-# Create visualization
 plt.figure(figsize=(12, 6))
 sns.set_style("whitegrid")
 
-# Main ASR plot
 ax = sns.barplot(data=df, x='Intent', y='ASR')
 plt.title('Attack Success Rate by Intent Category')
 plt.ylabel('Attack Success Rate (%)')

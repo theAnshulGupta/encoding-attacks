@@ -1,15 +1,12 @@
-# Standard library imports
 import json
 import logging
 from typing import Dict, List, Optional, Union
 from dataclasses import dataclass
 
-# Third-party imports
 import numpy as np
 from anthropic import Anthropic
 from dotenv import load_dotenv
 
-# Local imports
 from core.transform_engine import TransformEngine
 
 @dataclass
@@ -38,14 +35,11 @@ class Executor:
         if self.transform_engine is None:
             raise ValueError("Transform engine not initialized")
             
-        # Run teaching phase to generate and test ciphers
         teaching_results = self._run_teaching_phase()
         
-        # Use the best cipher from teaching phase
         best_result = max(teaching_results, key=lambda x: x['success_score'])
         self.transform_engine.cypher = best_result['cypher']
         
-        # Transform the target query
         result = self.transform_engine.transform_query(target_query)
         
         return {
@@ -63,10 +57,8 @@ class Executor:
 
     def execute_query(self, query: str, context: Optional[str] = None) -> Dict:
         """Execute a query with optional context"""
-        # Implementation details here
         pass
         
     def batch_execute(self, queries: List[str]) -> List[Dict]:
         """Execute a batch of queries"""
-        # Implementation details here
         pass

@@ -2,8 +2,7 @@ import json
 from collections import defaultdict
 import pandas as pd
 
-# Load results
-results_file = "results/small_test_sonnet_new.json"
+results_file = "results/output.json"
 with open(results_file, "r") as f:
     results_data = json.load(f)
 
@@ -15,10 +14,10 @@ for query, trials in results_data["data"].items():
     failure_modes = defaultdict(int)
     
     for trial in trials:
-        if 'human_judge' not in trial:
+        if 'person' not in trial:
             continue
         total += 1
-        if trial['human_judge'] == 'unsafe':
+        if trial['person'] == 'unsafe':
             successful += 1
         
         if 'failure_mode_judge' in trial:
@@ -59,10 +58,10 @@ intent_stats = defaultdict(lambda: {'total': 0, 'successful': 0, 'failure_modes'
 for query, trials in results_data["data"].items():
     intent = get_intent(query)
     for trial in trials:
-        if 'human_judge' not in trial:
+        if 'person' not in trial:
             continue
         intent_stats[intent]['total'] += 1
-        if trial['human_judge'] == 'unsafe':
+        if trial['person'] == 'unsafe':
             intent_stats[intent]['successful'] += 1
         if 'failure_mode_judge' in trial:
             intent_stats[intent]['failure_modes'][trial['failure_mode_judge']] += 1
@@ -104,10 +103,10 @@ category_stats = defaultdict(lambda: {'total': 0, 'successful': 0, 'failure_mode
 for query, trials in results_data["data"].items():
     category = get_category(query)
     for trial in trials:
-        if 'human_judge' not in trial:
+        if 'person' not in trial:
             continue
         category_stats[category]['total'] += 1
-        if trial['human_judge'] == 'unsafe':
+        if trial['person'] == 'unsafe':
             category_stats[category]['successful'] += 1
         if 'failure_mode_judge' in trial:
             category_stats[category]['failure_modes'][trial['failure_mode_judge']] += 1
