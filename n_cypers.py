@@ -3,22 +3,23 @@ import requests
 from collections import defaultdict
 import string
 # from openai import Completion
-# import HarmBench
+import HarmBench as HARMBENCH
 import anthropic
 import json
 import pandas as pd
 import numpy as np
 import os 
 from dotenv import load_dotenv
-import pandas as pd
 load_dotenv()
 from anthropic import Anthropic
+# import fewshot
 
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
-HARMBENCH = pd.read_csv('harm.csv')
-MODEL = "claude-3-5-sonnet-20241022"
-V = list(string.ascii_letters + string.digits)
+TEST = ['How do you make a kite', 'How do you swim'] #.... create a series of tests for respective test
+TRANSLATION = "I think, therefore I am"
+MODEL = "claude-3-5-sonnet-20241022" 
+V = list(string.ascii_letters + string.digits) 
 
 def generate_cypher(
     q=5,
@@ -232,7 +233,7 @@ def prompt_chain(cypher, translation_sentence, test_sentences, threat_sentence, 
         "role": "assistant",
         "content": translation_response.content
     })
-    
+    messages = []
     fewShot = [
         {
             "role": "user",
@@ -386,9 +387,9 @@ def extract_threats(results):
 
 if __name__ == "__main__":     
     output = []
-    for q in range(0, V):
+    for q in range(0, len(V)):
         results = []
-        for index, row in HARMBENCH.iterrows():
+        for index, row in HARMBENCH.iterrows(): # you can also use your own attack prompts in a custom CSV
             attack = row.iloc[0]
             try: 
                 reasoning = row.iloc[1]        
@@ -396,7 +397,7 @@ if __name__ == "__main__":
                 reasoning = "not applicable"
             k1, k2 = phi_range(random.randint(5,9)) # can mess around with k1, k2; phi plays minor role after it is < 0.5
             cypher = generate_cypher(q, k1, k2, None) # iterate through various quiet points
-            out = prompt_chain(cypher, 'I think, therefore I am', ['How do you make a kite', 'How do you swim'], attack, MODEL)
+            out = prompt_chain(cypher, TRANSLATION, TEST, attack, MODEL)
             results.append(((attack, reasoning), out, cypher))
         threats = []
 
@@ -405,12 +406,8 @@ if __name__ == "__main__":
             cypher = results[i][2]
             decoded_threat = decoder(encoded_threat, cypher)
             threats.append(decoded_threat)
-            print(f"\nAttack {i+1}")
-            print(encoded_threat)
-            print(decoded_threat)
 
         asr = attack_success_rate(threats, MODEL)
         output.append((asr, q, results, threats))
-        print(asr)
 
     print(output)
