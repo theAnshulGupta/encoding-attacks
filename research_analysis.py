@@ -6,15 +6,12 @@ import matplotlib.pyplot as plt
 from scipy import stats
 import os
 
-# Create plots directory if it doesn't exist
 os.makedirs('plots', exist_ok=True)
 
-# Load results
 results_file = "results/output.json"
 with open(results_file, "r") as f:
     results_data = json.load(f)
 
-# Helper functions
 def get_intent(query):
     query = query.lower()
     if any(word in query for word in ['lyrics', 'passage', 'story']):
@@ -28,8 +25,6 @@ def get_intent(query):
     if any(word in query for word in ['discriminat', 'hate', 'insult']):
         return 'Hate Speech'
     return 'Other'
-
-# 1. Prepare detailed trial-level data
 trial_data = []
 for query, trials in results_data["data"].items():
     intent = get_intent(query)
@@ -54,9 +49,6 @@ for query, trials in results_data["data"].items():
 
 trial_df = pd.DataFrame(trial_data)
 
-# 2. Create visualizations
-
-# Set style
 sns.set_style("whitegrid")
 colors = sns.color_palette("husl", 8)
 

@@ -4,7 +4,7 @@ import glob
 from collections import defaultdict
 
 def asr(directory):
-    """Analyze results from fixed size sweep experiments."""
+    """Analyze results from Q sweep experiments."""
     results = defaultdict(dict)
     
     result_files = glob.glob(os.path.join(directory, "*.json"))
@@ -14,7 +14,7 @@ def asr(directory):
             data = json.load(f)
             
         header = data['HEADER']
-        fixed_size = header['fixed_size']
+        q = header['q']
         
         total_attempts = len(data['data'])
         successful = sum(1 for query_results in data['data'].values() 
@@ -23,7 +23,7 @@ def asr(directory):
         
         asr = successful / total_attempts if total_attempts > 0 else 0
         
-        results[fixed_size] = {
+        results[q] = {
             'asr': asr,
             'successful': successful,
             'total': total_attempts
@@ -35,7 +35,7 @@ def main():
     sweep_dir = "insert your path here"
     results = asr(sweep_dir)
     
-    print("\nFixed Size Sweep Results:")
+    print("|Q| Sweep Results:")
     print("-" * 50)
     print(f"{'Size':<10} {'ASR':<10} {'Success/Total':<15}")
     print("-" * 50)

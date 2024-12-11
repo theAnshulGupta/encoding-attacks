@@ -60,7 +60,7 @@ trial_df = pd.DataFrame(trial_data)
 # 1. Create main figure with subplots
 fig = plt.figure(figsize=(20, 15))
 gs = GridSpec(2, 2, figure=fig)
-fig.suptitle('Bijection Learning Attack Analysis', fontsize=20, y=0.95)
+fig.suptitle('Attack Analysis', fontsize=20, y=0.95)
 
 # Plot 1: Success Rate by Intent with CI (Top Left)
 ax1 = fig.add_subplot(gs[0, 0])
