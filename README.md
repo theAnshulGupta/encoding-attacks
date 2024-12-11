@@ -1,26 +1,29 @@
 # Encoding Attacks
 
-Research implementation for testing LLM robustness through advanced encoding techniques.
+Research implementation for testing LLM robustness through advanced encoding techniques. This project explores various cipher-based approaches to test language model behavior and safety mechanisms.
 
 ## Setup
 
-Add API key to `.env`:
+1. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+2. Add API key to `.env`:
 ```
 ANTHROPIC_API_KEY=your_api_key_here
 ```
 
 ## Usage
 
-Basic run:
+### Basic Cipher Attack
+Run cipher-based attacks with default parameters:
 ```bash
-python main.py --model claude-3-5-sonnet-20241022
+python n_cypers.py
 ```
 
-Optimize:
+### Advanced Execution
+For more control over execution parameters:
 ```bash
-python main.py --model claude-3-5-sonnet-20241022 --optimize
+python run.py --model claude-3-5-sonnet-20241022
 ```
-
-## Note
-
-For research purposes only. Results may vary based on model and parameters used.

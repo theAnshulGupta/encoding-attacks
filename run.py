@@ -2,6 +2,12 @@ import argparse
 from typing import Dict, List
 from execution.processor import ExecutionConfig, Executor
 from execution.optimizer import OptimizationConfig, ParameterOptimizer
+import os
+import pandas as pd
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Run language transformation executions")
@@ -31,18 +37,30 @@ def parse_args():
                        help="Learning rates to optimize over")
     parser.add_argument("--num-workers", type=int, default=4,
                        help="Number of parallel workers for optimization")
+    parser.add_argument("--use-dataset", action="store_true", default=True,
+                       help="Use dataset queries instead of examples")
                        
     return parser.parse_args()
 
-def load_target_queries() -> List[str]:
-    return [
-        "What is the weather like today?",
-        "Tell me about machine learning",
-        "How does a computer work?"
-    ]
+def load_target_queries(use_dataset: bool = True) -> List[str]:
+    """Load target queries either from dataset or use default examples"""
+    if use_dataset:
+        # Load queries from HarmBench dataset
+        df = pd.read_csv('harm.csv')
+        return df['Behavior'].tolist()[:10]  # Start with first 10 queries for testing
+    else:
+        # Default example queries
+        return [
+            "What is the weather like today?",
+            "Tell me about machine learning",
+            "How does a computer work?"
+        ]
 
 def main():
     args = parse_args()
+    
+    if not os.getenv("ANTHROPIC_API_KEY"):
+        raise ValueError("ANTHROPIC_API_KEY not found in environment variables")
     
     base_config = ExecutionConfig(
         model_name=args.model,
@@ -51,7 +69,8 @@ def main():
         learning_rate=args.learning_rate
     )
     
-    target_queries = load_target_queries()
+    target_queries = load_target_queries(args.use_dataset)
+    print(f"Loaded {len(target_queries)} queries from {'HarmBench dataset' if args.use_dataset else 'default examples'}")
     
     if args.optimize:
         opt_config = OptimizationConfig(
@@ -76,14 +95,15 @@ def main():
         executor.initialize_transformation(args.transform_type)
         
         results = []
-        for query in target_queries:
+        for i, query in enumerate(target_queries, 1):
+            print(f"\nProcessing query {i}/{len(target_queries)}")
             result = executor.run_execution(query)
             results.append(result)
-            
-        print("\nExecution Results:")
-        for result in results:
-            print(f"\nQuery: {result['query']}")
             print(f"Success Score: {result['success_score']:.2%}")
+            
+        print("\nExecution Results Summary:")
+        avg_score = sum(r['success_score'] for r in results) / len(results)
+        print(f"Average Success Score: {avg_score:.2%}")
 
 if __name__ == "__main__":
     main()
