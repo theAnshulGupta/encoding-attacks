@@ -12,33 +12,22 @@ load_dotenv()
 def parse_args():
     parser = argparse.ArgumentParser(description="Run language transformation executions")
     
-    parser.add_argument("--model", type=str, required=True,
-                       help="Target model name")
-    parser.add_argument("--teaching-shots", type=int, default=5,
-                       help="Number of teaching examples")
-    parser.add_argument("--practice-shots", type=int, default=2,
-                       help="Number of practice examples")
-    parser.add_argument("--learning-rate", type=float, default=0.1,
-                       help="Learning rate for context adaptation")
+    parser.add_argument("--model", type=str, required=True)
+    parser.add_argument("--teaching-shots", type=int, default=5)
+    parser.add_argument("--practice-shots", type=int, default=2)
+    parser.add_argument("--learning-rate", type=float, default=0.1)
     parser.add_argument("--transform-type", type=str, default="word",
-                       choices=["word", "contextual"],
-                       help="Type of transformation")
+                       choices=["word", "contextual"])
                        
-    parser.add_argument("--optimize", action="store_true",
-                       help="Run parameter optimization")
+    parser.add_argument("--optimize", action="store_true")
     parser.add_argument("--opt-teaching", type=int, nargs="+",
-                       default=[3, 5, 7],
-                       help="Teaching shots to optimize over")
+                       default=[3, 5, 7])
     parser.add_argument("--opt-practice", type=int, nargs="+",
-                       default=[1, 2, 3],
-                       help="Practice shots to optimize over")
+                       default=[1, 2, 3])
     parser.add_argument("--opt-lr", type=float, nargs="+",
-                       default=[0.05, 0.1, 0.2],
-                       help="Learning rates to optimize over")
-    parser.add_argument("--num-workers", type=int, default=4,
-                       help="Number of parallel workers for optimization")
-    parser.add_argument("--use-dataset", action="store_true", default=True,
-                       help="Use dataset queries instead of examples")
+                       default=[0.05, 0.1, 0.2])
+    parser.add_argument("--num-workers", type=int, default=4)
+    parser.add_argument("--use-dataset", action="store_true", default=True)
                        
     return parser.parse_args()
 
